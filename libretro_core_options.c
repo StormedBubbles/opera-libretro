@@ -190,6 +190,17 @@ static struct retro_core_option_definition option_defs_us[] =
       "1"
     },
     {
+      "opera_lightgun_cursor",
+      "Lightgun Cursor",
+      "Toggle lightgun cursors on/off.",
+      {
+        { "disabled", NULL },
+        { "enabled", NULL },
+        { NULL, NULL },
+      },
+      "enabled"
+    },
+    {
       "opera_hack_timing_1",
       "Timing Hack 1 (Crash 'n Burn)",
       "This must be enabled for correct operation of the game 'Crash 'n Burn'.",

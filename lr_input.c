@@ -9,6 +9,7 @@
 
 static uint32_t ACTIVE_DEVICES = 0;
 static unsigned PBUS_DEVICES[LR_INPUT_MAX_DEVICES] = {0};
+extern uint32_t g_OPT_LIGHTGUN_CURSOR;
 
 static
 uint8_t
@@ -156,7 +157,8 @@ lr_input_poll_lightgun(const int port_)
     lg.reload  = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_TRIGGER) || poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_RELOAD);
   }
 
-  lr_input_crosshair_set(port_,lg.x,lg.y);
+  if(g_OPT_LIGHTGUN_CURSOR == 1)
+    lr_input_crosshair_set(port_,lg.x,lg.y);
 
   opera_pbus_add_lightgun(&lg);
 }
@@ -181,7 +183,8 @@ lr_input_poll_arcade_lightgun(const int port_)
     lg.holster = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_TRIGGER) || poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_RELOAD);
   }
 
-  lr_input_crosshair_set(port_,lg.x,lg.y);
+  if(g_OPT_LIGHTGUN_CURSOR == 1)
+    lr_input_crosshair_set(port_,lg.x,lg.y);
 
   opera_pbus_add_arcade_lightgun(&lg);
 }
