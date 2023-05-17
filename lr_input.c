@@ -144,19 +144,22 @@ lr_input_poll_lightgun(const int port_)
 {
   opera_pbus_lightgun_t lg;
 
-  lg.x       = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X);
-  lg.y       = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y);
   lg.trigger = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_TRIGGER);
   lg.option  = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SELECT);
   lg.reload  = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_RELOAD);
             
-  if(poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
+  if((poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN)) || (lg.reload))
   {
-    lg.trigger = 0;
-    lg.reload  = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_TRIGGER) || poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_RELOAD);
+    lg.x = -32768;
+    lg.y = -32768;
+    lr_input_crosshair_set(port_,-100000,-100000);
   }
-
-  lr_input_crosshair_set(port_,lg.x,lg.y);
+  else
+  {
+    lg.x = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X);
+    lg.y = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y);
+    lr_input_crosshair_set(port_,lg.x,lg.y);
+  }
 
   opera_pbus_add_lightgun(&lg);
 }
@@ -167,8 +170,6 @@ lr_input_poll_arcade_lightgun(const int port_)
 {
   opera_pbus_arcade_lightgun_t lg;
 
-  lg.x       = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X);
-  lg.y       = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y);
   lg.trigger = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_TRIGGER);
   lg.service = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_AUX_A);
   lg.coins   = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SELECT);
@@ -177,11 +178,16 @@ lr_input_poll_arcade_lightgun(const int port_)
             
   if(poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN))
   {
-    lg.trigger = 0;
-    lg.holster = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_TRIGGER) || poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_RELOAD);
+    lg.x = -32768;
+    lg.y = -32768;
+    lr_input_crosshair_set(port_,-100000,-100000);
   }
-
-  lr_input_crosshair_set(port_,lg.x,lg.y);
+  else
+  {
+    lg.x = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X);
+    lg.y = poll_lightgun(port_,RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y);
+    lr_input_crosshair_set(port_,lg.x,lg.y);
+  }
 
   opera_pbus_add_arcade_lightgun(&lg);
 }

@@ -535,6 +535,34 @@ opera_lr_opts_set_hide_lightgun_crosshairs(opera_lr_opts_t const *opts_)
 
 static
 void
+opera_lr_opts_get_lg_x_offset(opera_lr_opts_t *opts_)
+{
+  opts_->lg_x_offset = getval_as_float("lg_x_offset",0);
+}
+
+static
+void
+opera_lr_opts_set_lg_x_offset(opera_lr_opts_t const *opts_)
+{
+  g_OPTS.lg_x_offset = opts_->lg_x_offset;
+}
+
+static
+void
+opera_lr_opts_get_lg_y_offset(opera_lr_opts_t *opts_)
+{
+  opts_->lg_y_offset = getval_as_float("lg_y_offset",0);
+}
+
+static
+void
+opera_lr_opts_set_lg_y_offset(opera_lr_opts_t const *opts_)
+{
+  g_OPTS.lg_y_offset = opts_->lg_y_offset;
+}
+
+static
+void
 opera_lr_opts_get_madam_matrix_engine(opera_lr_opts_t *opts_)
 {
   const char *val;
@@ -666,6 +694,8 @@ opera_lr_opts_get(opera_lr_opts_t *opts_)
   opera_lr_opts_get_dsp_threaded(opts_);
   opera_lr_opts_get_hacks(opts_);
   opera_lr_opts_get_hide_lightgun_crosshairs(opts_);
+  opera_lr_opts_get_lg_x_offset(opts_);
+  opera_lr_opts_get_lg_y_offset(opts_);
   opera_lr_opts_get_high_resolution(opts_);
   opera_lr_opts_get_kprint(opts_);
   opera_lr_opts_get_nvram_shared(opts_);
@@ -693,6 +723,8 @@ opera_lr_opts_set(opera_lr_opts_t const *opts_)
   opera_lr_opts_set_dsp_threaded(opts_);
   opera_lr_opts_set_hacks(opts_);
   opera_lr_opts_set_hide_lightgun_crosshairs(opts_);
+  opera_lr_opts_set_lg_x_offset(opts_);
+  opera_lr_opts_set_lg_y_offset(opts_);
   opera_lr_opts_set_high_resolution(opts_);
   opera_lr_opts_set_kprint(opts_);
   opera_lr_opts_set_nvram_shared(opts_);
