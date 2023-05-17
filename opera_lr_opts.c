@@ -35,12 +35,15 @@
 
 const opera_bios_t *g_OPT_BIOS = NULL;
 const opera_bios_t *g_OPT_FONT = NULL;
-uint32_t g_OPT_VIDEO_WIDTH       = 0;
-uint32_t g_OPT_VIDEO_HEIGHT      = 0;
-uint32_t g_OPT_VIDEO_PITCH_SHIFT = 0;
-uint32_t g_OPT_VDLP_FLAGS        = 0;
-uint32_t g_OPT_VDLP_PIXEL_FORMAT = 0;
-uint32_t g_OPT_ACTIVE_DEVICES    = 0;
+uint32_t g_OPT_VIDEO_WIDTH              = 0;
+uint32_t g_OPT_VIDEO_HEIGHT             = 0;
+uint32_t g_OPT_VIDEO_PITCH_SHIFT        = 0;
+uint32_t g_OPT_VDLP_FLAGS               = 0;
+uint32_t g_OPT_VDLP_PIXEL_FORMAT        = 0;
+uint32_t g_OPT_ACTIVE_DEVICES           = 0;
+float g_OPT_LG_X                        = 0;
+float g_OPT_LG_Y                        = 0;
+uint32_t g_OPT_HIDE_LIGHTGUN_CROSSHAIRS = 0;
 
 static
 int
@@ -299,6 +302,45 @@ opera_lr_opts_process_active_devices(void)
 }
 
 void
+opera_lr_opts_process_lg_x_offset(void)
+{
+  const char *val;
+
+  g_OPT_LG_X = 0;
+
+  val = getval("lg_x_offset");
+  if(val)
+    g_OPT_LG_X = atof(val);
+}
+
+void
+opera_lr_opts_process_lg_y_offset(void)
+{
+  const char *val;
+
+  g_OPT_LG_Y = 0;
+
+  val = getval("lg_y_offset");
+  if(val)
+    g_OPT_LG_Y = atof(val);
+}
+
+void
+opera_lr_opts_process_hide_lightgun_crosshairs(void)
+{
+  bool rv;
+
+  rv = opera_lr_opts_is_enabled("hide_lightgun_crosshairs");
+
+  g_OPT_HIDE_LIGHTGUN_CROSSHAIRS = 0;
+
+  if(rv)
+    g_OPT_HIDE_LIGHTGUN_CROSSHAIRS = 1;
+  else
+    g_OPT_HIDE_LIGHTGUN_CROSSHAIRS = 0;
+}
+
+void
 opera_lr_opts_process_madam_matrix_engine(void)
 {
   const char *val;
@@ -378,6 +420,9 @@ opera_lr_opts_process(void)
   opera_lr_opts_process_cpu_overlock();
   opera_lr_opts_process_dsp_threaded();
   opera_lr_opts_process_active_devices();
+  opera_lr_opts_process_lg_x_offset();
+  opera_lr_opts_process_lg_y_offset();
+  opera_lr_opts_process_hide_lightgun_crosshairs();
   opera_lr_opts_process_debug();
   opera_lr_opts_process_madam_matrix_engine();
   opera_lr_opts_process_swi_hle();
