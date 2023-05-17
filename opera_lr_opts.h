@@ -27,6 +27,8 @@ struct opera_lr_opts_t
   unsigned active_devices;
   opera_mem_cfg_t mem_cfg;
   bool hide_lightgun_crosshairs;
+  float lg_x_offset;
+  float lg_y_offset;
   char const *madam_matrix_engine;
   bool kprint;
   bool dsp_threaded;

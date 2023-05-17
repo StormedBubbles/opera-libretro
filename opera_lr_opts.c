@@ -535,6 +535,34 @@ opera_lr_opts_set_hide_lightgun_crosshairs(opera_lr_opts_t const *opts_)
 
 static
 void
+opera_lr_opts_process_lg_x_offset(opera_lr_opts_t *opts_)
+{
+  opts_->lg_x_offset = getval_as_float("lg_x_offset",0);
+}
+
+static
+void
+opera_lr_opts_set_lg_x_offset(opera_lr_opts_t const *opts_)
+{
+  g_OPTS.lg_x_offset = opts_->lg_x_offset;
+}
+
+static
+void
+opera_lr_opts_process_lg_y_offset(opera_lr_opts_t *opts_)
+{
+  opts_->lg_y_offset = getval_as_float("lg_y_offset",0);
+}
+
+static
+void
+opera_lr_opts_set_lg_y_offset(opera_lr_opts_t const *opts_)
+{
+  g_OPTS.lg_y_offset = opts_->lg_y_offset;
+}
+
+static
+void
 opera_lr_opts_get_madam_matrix_engine(opera_lr_opts_t *opts_)
 {
   const char *val;

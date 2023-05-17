@@ -1,4 +1,5 @@
 #include "opera_pbus.h"
+#include "../opera_lr_opts.h"
 
 #include <stdint.h>
 
@@ -157,26 +158,32 @@ opera_pbus_add_lightgun(const opera_pbus_lightgun_t *lg_)
   trigger = lg_->trigger;
   if(lg_->reload)
     {
-      x = 320;
-      y = 0;
       trigger = 1;
+    }
+
+  x = (lg_->x + (32*1024));
+  y = (lg_->y + (32*1024));
+  x = (x / (65535.0 / 640.0)) + g_OPTS.lg_x_offset / 100.0 * 640.0;
+  y = (y / (65535.0 / 240.0)) + g_OPTS.lg_y_offset / 100.0 * 240.0;
+
+  if(lg_->x == -32768)
+    {
+      r = 0;
     }
   else
     {
-      x = (lg_->x + (32*1024));
-      y = (lg_->y + (32*1024));
-      x = (x / (65535.0 / 640.0));
-      y = (y / (65535.0 / 240.0));
+      r = (((y * 794.386) + x) / 5.0);
     }
-
-  r = (((y * 794.386) + x) / 5.0);
-
+  
   PBUS.buf[PBUS.idx++] = PBUS_LIGHTGUN_ID;
-  PBUS.buf[PBUS.idx++] = ((trigger      << PBUS_LG_SHIFT_TRIGGER) |
-                          (lg_->option  << PBUS_LG_SHIFT_OPTION)  |
-                          ((r & 0x10000) >> 16));
+  PBUS.buf[PBUS.idx++] = ((trigger     << PBUS_LG_SHIFT_TRIGGER) |
+                         (lg_->option  << PBUS_LG_SHIFT_OPTION));
   PBUS.buf[PBUS.idx++] = ((r & 0xFF00) >> 8);
   PBUS.buf[PBUS.idx++] = (r & 0xFF);
+  if (lg_->x == -32768)
+  PBUS.buf[PBUS.idx++] = 0;
+  else
+  PBUS.buf[PBUS.idx++] = 2;
 }
 
 void
@@ -189,30 +196,32 @@ opera_pbus_add_arcade_lightgun(const opera_pbus_arcade_lightgun_t *lg_)
   if((PBUS.idx + 4) >= PBUS_BUF_SIZE)
     return;
 
-  if(lg_->holster)
+  x = (lg_->x + (32*1024));
+  y = (lg_->y + (32*1024));
+  x = (x / (65535.0 / 640.0)) + g_OPTS.lg_x_offset / 100.0 * 640.0;
+  y = (y / (65535.0 / 240.0)) + g_OPTS.lg_y_offset / 100.0 * 240.0;
+
+  if(lg_->x == -32768)
     {
-      x = 320;
-      y = 0;
+      r = 0;
     }
   else
     {
-      x = (lg_->x + (32*1024));
-      y = (lg_->y + (32*1024));
-      x = (x / (65535.0 / 640.0));
-      y = (y / (65535.0 / 240.0));
+      r = (((y * 794.386) + x) / 5.0);
     }
-
-  r = (((y * 794.386) + x) / 5.0);
 
   PBUS.buf[PBUS.idx++] = PBUS_LIGHTGUN_ID;
   PBUS.buf[PBUS.idx++] = ((lg_->trigger << PBUS_LG_SHIFT_TRIGGER) |
                           (lg_->service << PBUS_LG_SHIFT_SERVICE) |
                           (lg_->coins   << PBUS_LG_SHIFT_COINS)   |
                           (lg_->start   << PBUS_LG_SHIFT_START)   |
-                          (lg_->holster << PBUS_LG_SHIFT_HOLSTER) |
-                          ((r & 0x10000) >> 16));
+                          (lg_->holster << PBUS_LG_SHIFT_HOLSTER));
   PBUS.buf[PBUS.idx++] = ((r & 0xFF00) >> 8);
   PBUS.buf[PBUS.idx++] = (r & 0xFF);
+  if (lg_->x == -32768)
+  PBUS.buf[PBUS.idx++] = 0;
+  else
+  PBUS.buf[PBUS.idx++] = 1;
 }
 
 void
