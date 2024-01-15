@@ -146,6 +146,8 @@ opera_pbus_add_mouse(const opera_pbus_mouse_t *mouse_)
   The algo below is derived from Opera's lightgun.cpp. It's not clear
   where all the constants come from or refer to.
 */
+extern float g_OPT_LG_X;
+extern float g_OPT_LG_Y;
 void
 opera_pbus_add_lightgun(const opera_pbus_lightgun_t *lg_)
 {
