@@ -1,6 +1,4 @@
 #include "opera_pbus.h"
-#include "../libretro_core_options.h"
-#include "../opera_lr_opts.h"
 
 #include <stdint.h>
 
@@ -56,6 +54,9 @@
 #define PBUS_ORBATAK_SHIFT_START_P1 1
 #define PBUS_ORBATAK_SHIFT_START_P2 2
 #define PBUS_ORBATAK_SHIFT_SERVICE  0
+
+extern float lg_x_offset;
+extern float lg_y_offset;
 
 struct pbus_s
 {
