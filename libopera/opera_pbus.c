@@ -1,4 +1,5 @@
 #include "opera_pbus.h"
+#include "../libretro_core_options.h"
 #include "../opera_lr_opts.h"
 
 #include <stdint.h>
